@@ -2,13 +2,15 @@
 var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.displayFilteredCities = exports.filterCities = exports.displayCities = exports.addCity = void 0;
+// Array to store the list of cities
 const cityList = [];
+// Function to add a new city to the directory
 const addCity = (city) => {
     cityList.push(city);
     (0, exports.displayCities)();
 };
 exports.addCity = addCity;
-//2  
+// Function to display the list of cities
 const displayCities = () => {
     const cityContainer = document.getElementById("cityContainer");
     if (cityContainer) {
@@ -25,22 +27,23 @@ const displayCities = () => {
     });
 };
 exports.displayCities = displayCities;
-//3  
+// Function to filter cities based on user input
 const filterCities = (value) => {
     const filteredCities = cityList.filter((city) => city.cityName.toLowerCase().includes(value.toLowerCase()) ||
         city.country.toLowerCase().includes(value.toLowerCase()));
     (0, exports.displayFilteredCities)(filteredCities);
 };
 exports.filterCities = filterCities;
+// Function to display filtered cities
 const displayFilteredCities = (filteredCities) => {
-    let cityContainer = document.getElementById("cityContainer");
+    const cityContainer = document.getElementById("cityContainer");
     if (cityContainer) {
         while (cityContainer.hasChildNodes() && cityContainer.firstChild) {
             cityContainer.removeChild(cityContainer.firstChild);
         }
     }
     filteredCities.forEach((city) => {
-        let cityDiv = document.createElement("div");
+        const cityDiv = document.createElement("div");
         cityDiv.innerHTML = `<strong>${city.cityName}</strong> (${city.country}) - Population: ${city.population}`;
         if (cityContainer) {
             cityContainer.appendChild(cityDiv);
@@ -48,7 +51,7 @@ const displayFilteredCities = (filteredCities) => {
     });
 };
 exports.displayFilteredCities = displayFilteredCities;
-//Submit  
+// Event listener for the form submission
 (_a = document.getElementById("cityForm")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (event) => {
     event.preventDefault();
     const cityName = document.getElementById("cityName").value;
@@ -61,7 +64,7 @@ exports.displayFilteredCities = displayFilteredCities;
     };
     (0, exports.addCity)(newCity);
 });
-//Search
+// Event listener for the search input
 (_b = document.getElementById("searchInput")) === null || _b === void 0 ? void 0 : _b.addEventListener("input", (event) => {
     const searchValue = event.target.value;
     (0, exports.filterCities)(searchValue);

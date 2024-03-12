@@ -1,60 +1,66 @@
-//1
+// Define interface for City
 interface City {
-    cityName: string;
-    country: string;
-    population: number;
+  cityName: string;
+  country: string;
+  population: number;
+}
+
+// Array to store the list of cities
+const cityList: City[] = [];
+
+// Function to add a new city to the directory
+export const addCity = (city: City) => {
+  cityList.push(city);
+  displayCities();
+};
+
+// Function to display the list of cities
+export const displayCities = () => {
+  const cityContainer = document.getElementById("cityContainer");
+  if (cityContainer) {
+    while (cityContainer.hasChildNodes() && cityContainer.firstChild) {
+      cityContainer.removeChild(cityContainer.firstChild);
+    }
   }
-  
-  const cityList: City[] = [];
- 
-  export const addCity = (city: City) => {
-    cityList.push(city);
-    displayCities();
-  };
-//2  
-  export const displayCities = () => {
-    const cityContainer = document.getElementById("cityContainer");
+
+  cityList.forEach((city) => {
+    const cityDiv = document.createElement("div");
+    cityDiv.innerHTML = `<strong>${city.cityName}</strong> (${city.country}) - Population: ${city.population}`;
     if (cityContainer) {
-      while (cityContainer.hasChildNodes() && cityContainer.firstChild) {
-        cityContainer.removeChild(cityContainer.firstChild);
-      }
+      cityContainer.appendChild(cityDiv);
     }
-  
-    cityList.forEach((city) => {
-      const cityDiv = document.createElement("div");
-      cityDiv.innerHTML = `<strong>${city.cityName}</strong> (${city.country}) - Population: ${city.population}`;
-      if (cityContainer) {
-        cityContainer.appendChild(cityDiv);
-      }
-    });
-  };
-//3  
-  export const filterCities = (value: string) => {
-    const filteredCities = cityList.filter(
-      (city) =>
-        city.cityName.toLowerCase().includes(value.toLowerCase()) ||
-        city.country.toLowerCase().includes(value.toLowerCase())
-    );
-    displayFilteredCities(filteredCities);
-  };
-  
-  export const displayFilteredCities = (filteredCities: City[]) => {
-    let cityContainer = document.getElementById("cityContainer");
+  });
+};
+
+// Function to filter cities based on user input
+export const filterCities = (value: string) => {
+  const filteredCities = cityList.filter(
+    (city) =>
+      city.cityName.toLowerCase().includes(value.toLowerCase()) ||
+      city.country.toLowerCase().includes(value.toLowerCase())
+  );
+  displayFilteredCities(filteredCities);
+};
+
+// Function to display filtered cities
+export const displayFilteredCities = (filteredCities: City[]) => {
+  const cityContainer = document.getElementById("cityContainer");
+  if (cityContainer) {
+    while (cityContainer.hasChildNodes() && cityContainer.firstChild) {
+      cityContainer.removeChild(cityContainer.firstChild);
+    }
+  }
+
+  filteredCities.forEach((city) => {
+    const cityDiv = document.createElement("div");
+    cityDiv.innerHTML = `<strong>${city.cityName}</strong> (${city.country}) - Population: ${city.population}`;
     if (cityContainer) {
-      while (cityContainer.hasChildNodes() && cityContainer.firstChild) {
-        cityContainer.removeChild(cityContainer.firstChild);
-      }
+      cityContainer.appendChild(cityDiv);
     }
-  
-    filteredCities.forEach((city) => {
-      let cityDiv = document.createElement("div");
-      cityDiv.innerHTML = `<strong>${city.cityName}</strong> (${city.country}) - Population: ${city.population}`;
-      if (cityContainer) {
-        cityContainer.appendChild(cityDiv);
-      }
-    });
-  };
-//Submit  
+  });
+};
+
+// Event listener for the form submission
 document.getElementById("cityForm")?.addEventListener("submit", (event) => {
   event.preventDefault();
   const cityName = (document.getElementById("cityName") as HTMLInputElement).value;
@@ -70,11 +76,8 @@ document.getElementById("cityForm")?.addEventListener("submit", (event) => {
   addCity(newCity);
 });
 
-
-  
-//Search
-  document.getElementById("searchInput")?.addEventListener("input", (event) => {
-    const searchValue = (event.target as HTMLInputElement).value;
-    filterCities(searchValue);
-  });
-  
+// Event listener for the search input
+document.getElementById("searchInput")?.addEventListener("input", (event) => {
+  const searchValue = (event.target as HTMLInputElement).value;
+  filterCities(searchValue);
+});
